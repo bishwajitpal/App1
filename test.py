@@ -44,9 +44,9 @@ def USDistance():
 		pulse_end = time.time()
 	pulse_duration  = pulse_end - pulse_start
 	distance = pulse_duration * 17150
-	distance =  round(distance , 2)
+	distance = round(distance , 2)
 	print("distance :" + str(distance) + "cm")
-	return;
+	return distance;
 
 #stepper
 def RightClk():
@@ -143,19 +143,29 @@ def LeftAClk() :
 	        if i > 50:
         	        break
 
+def StopWheel():
+	gpio.output(port.PG6, gpio.LOW)
+        gpio.output(port.PG8, gpio.LOW)
+        gpio.output(port.PA2, gpio.LOW)
+        gpio.output(port.PA18, gpio.LOW)
+	gpio.output(port.PG7, gpio.LOW)
+        gpio.output(port.PG9, gpio.LOW)
+        gpio.output(port.PC3, gpio.LOW)
+        gpio.output(port.PA21, gpio.LOW)
+	return;
 
-def MoveBack():
+def MoveBack(tmr):
 	# Move
 	gpio.output(port.PG6, gpio.HIGH)
 	gpio.output(port.PG8, gpio.HIGH)
 	gpio.output(port.PA2, gpio.HIGH)
 	gpio.output(port.PA18, gpio.HIGH)
-	sleep(1)
+	sleep(tmr)
 	gpio.output(port.PG6, gpio.LOW)
 	gpio.output(port.PG8, gpio.LOW)
 	gpio.output(port.PA2, gpio.LOW)
 	gpio.output(port.PA18, gpio.LOW)
-	sleep(0.5)
+	#sleep(0.5)
 	return;
 
 def MoveFront():
@@ -163,7 +173,7 @@ def MoveFront():
 	gpio.output(port.PG9, gpio.HIGH)
 	gpio.output(port.PC3, gpio.HIGH)
 	gpio.output(port.PA21, gpio.HIGH)
-	sleep(1)
+	#sleep(1)
 	gpio.output(port.PG7, gpio.LOW)
 	gpio.output(port.PG9, gpio.LOW)
 	gpio.output(port.PC3, gpio.LOW)
@@ -216,7 +226,19 @@ def RotateAClock():
 	gpio.output(port.PA21, gpio.LOW)
 
 
-USDistance()
+i = 0;
+
+while i < 1 :
+	dis = USDistance()
+	if dis  > 10:
+		MoveBack(0.2)
+	        print("Ret distance :" + str( dis )  + "cm")
+
+	else:
+		StopWheel()
+		break
+
+StopWheel()
 
 #SetRotation()
 #RotateClock()
@@ -226,7 +248,6 @@ USDistance()
 
 #TurnLeft()
 #MoveFront()
-#MoveBack()
 
 #TurnRight()
 #TurnRight()
