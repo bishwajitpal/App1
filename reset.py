@@ -313,145 +313,21 @@ def ReadCompass():
 
 north = 213
 east = 337
-west = 86
+west = 87
 south = 32
 
 
 def MicroAdjust(dest):
-	sleep(1)
-	print("Microadjusting to Destination  : " + str(dest) )
 	curpos  = ReadCompass()
-	while( dest+1  <  curpos  or dest-1  > curpos ):
-		print("Micoadjusting")
+	while( dest <  curpos+5  or dest > curpos+5 ):
 		if (dest < curpos ):
-			RotateAClock(.02)
-			curpos = ReadCompass()
-			print("microadjusting clk : " + str(curpos)  )
-			sleep(0.2)
+			RotateClock(.02)
 		if (dest > curpos ):
-			RotateClock(.02)
-			curpos = ReadCompass()
-			print("microadjusting Aclk : " + str(curpos)  )
-			sleep(0.2)
+			RotateAClock(.02)
 
 
-def TurnCompass90Clock():
-	print("Turn Compass 90 degree clockwise")
-	SetRotation()
-	curpos = ReadCompass()
-
-	if(curpos < north and curpos > west):
-		while(curpos < north ):
-			RotateClock(.02)
-			curpos = ReadCompass()
-		MicroAdjust(north)
-		ResetRotation()
-		return
-
-	if(curpos > south  and curpos < west):
-                while(curpos < west ):
-                        print("turning west" )
-			RotateClock(.02)
-                        curpos = ReadCompass()
-		MicroAdjust(west)
-		ResetRotation()
-		return
-
-	if(curpos > east  and curpos < south):
-                while(curpos < south or  curpos > east ):
-                        RotateClock(.02)
-                        curpos = ReadCompass()
-		MicroAdjust(south)
-		ResetRotation()
-		return
-
-        if(curpos > north  and curpos < east):
-                while(curpos < west ):
-                        RotateClock(.02)
-                        curpos = ReadCompass()
-		MicroAdjust(north)
-		ResetRotation()
-		return
 
 
-def TurnCompass90AClock():
-        print("Turn Compass 90 degree Anti clockwise")
-        SetRotation()
-        curpos = ReadCompass()
-
-        if(curpos < north and curpos > west):
-                while(curpos > west ):
-                        RotateAClock(.02)
-                        curpos = ReadCompass()
-                MicroAdjust(west)
-                ResetRotation()
-                return
-        if(curpos > south  and curpos < west):
-                while(curpos > south ):
-                        print("turning south" )
-                        RotateAClock(.02)
-                        curpos = ReadCompass()
-                MicroAdjust(south)
-                ResetRotation()
-                return
-
-        if(curpos > east  and curpos < south):
-                while(curpos < south or  curpos > east ):
-                        RotateAClock(.02)
-                        curpos = ReadCompass()
-                MicroAdjust(east)
-                ResetRotation()
-                return
-
-        if(curpos > north  and curpos < east):
-                while(curpos > north):
-                        RotateAClock(.02)
-                        curpos = ReadCompass()
-                MicroAdjust(north)
-                ResetRotation()
-                return
-
-
-TurnCompass90Clock()
-TurnCompass90AClock()
-
-ReadCompass()
-
-CTurn = 1
-j = 50;
-while j < 3 :
-
-	reachedend = 0;
-	i = 0;
-
-	while i < 1 :
-		dis = USDistance()
-		if dis > 10:
-			MoveBack(0.2)
-	        	print("Ret distance :" + str( dis )  + "cm")
-		else:
-			if CTurn == 0 :
-				UTurnClk()
-				CTurn =  1
-			else :
-				UTurnAClk()
-				CTurn = 0
-			break
-	j += 1
 
 StopWheel()
-
-#SetRotation()
-#RotateClock()
-#sleep(2)
-#RotateAClock()
-#ResetRotation()
-
-#TurnLeft()
-#MoveFront()
-
-#TurnRight()
-#TurnRight()
-#MoveBack()
-#MoveFront()
-#TurnLeft()
+ResetRotation()
